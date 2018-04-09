@@ -1,4 +1,4 @@
 ﻿  Matriz.cpp
-  main.cpp
-  Generating Code...
-  Projeto.vcxproj -> D:\OneDrive - Instituto Superior de Engenharia de Lisboa\Trabalhos de EDA\TP2\Projeto\Debug\Projeto.exe
+d:\onedrive - instituto superior de engenharia de lisboa\trabalhos de eda\tp3\eda - tp3\projeto\projeto\matriz.cpp(191): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+d:\onedrive - instituto superior de engenharia de lisboa\trabalhos de eda\tp3\eda - tp3\projeto\projeto\matriz.cpp(203): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+  Projeto.vcxproj -> D:\OneDrive - Instituto Superior de Engenharia de Lisboa\Trabalhos de EDA\TP3\EDA - TP3\Projeto\Debug\Projeto.exe

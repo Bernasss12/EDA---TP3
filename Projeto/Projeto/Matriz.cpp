@@ -66,6 +66,7 @@ bool Matriz::Ler(char*nome_ficheiro)
 
 void Matriz::Escrever()
 {
+	printf("\n");
 	for (int i = 0; i < linhas; i++)
 	{
 		for (int j = 0; j < colunas; j++)
@@ -74,6 +75,7 @@ void Matriz::Escrever()
 		}
 		printf("\n");
 	}
+	printf("\n");
 } // Imprime os valores da matriz de forma legivel e de acordo com a representação comum das mesmas.
 
 Matriz::~Matriz()
@@ -148,27 +150,45 @@ Matriz Matriz::operator * (const Matriz& m1)
 	return *this;
 } // Operador que dá devolve a matriz equivalente ao produto das duas matrizes utilizadas.
 
-Matriz Matriz::DecomporLU()
+Matriz Matriz::DecomporLU() //Método para a DECOMPOSIÇÃO de matrizes nas suas matrizes triangulares superior e inferior
 {
-	if (linhas != colunas) return *this; // Caso a matriz nao seja quadrada devolve a propria matriz inalterada.
-	Matriz temp(*this);
-	for (int i = 0; i < linhas - 1; i++)
-	{
-		for (int j = i + 1; j < linhas; j++)
-		{
-			temp.elems[j][i] = temp.elems[j][i] / temp.elems[i][i];
+	Matriz upper = Matriz(linhas, colunas);
+	Matriz lower = Matriz(linhas, colunas);
+	Matriz temp = *this;
+	Matriz result = Matriz(linhas, colunas);
 
-			if (temp.elems[i][i] == 0) // Caso haja um elemento nulo na sua diagonal, devolve a matriz inicial.
-			{
-				printf("\n\n\tUm dos elementos da diagonal eh igual a 0.Nao eh possivel\n");
-				return *this;
-			}
-			for (int k = i + 1; k < linhas; k++)
-			{
-				temp.elems[j][k] -= temp.elems[j][i] * temp.elems[i][k];
+	for (int i = 0; i < linhas; i++)
+	{
+		// Matriz U
+		for (int k = i; k < linhas; k++) {
+
+			int sum = 0;
+			for (int j = 0; j < i; j++)
+				sum += (lower.elems[i][j] * upper.elems[j][k]);
+
+				upper.elems[i][k] = temp.elems[i][k] - sum;
+		}
+
+		// Matriz L
+		for (int k = i; k < linhas; k++) {
+			if (i == k)
+				lower.elems[i][i] = 1; // Diagonal igual a  1
+			else {
+				int sum = 0;
+				for (int j = 0; j < i; j++)
+					sum += (lower.elems[k][j] * upper.elems[j][i]);
+				lower.elems[k][i] = (temp.elems[k][i] - sum) / upper.elems[i][i];
 			}
 		}
+
+		
 	}
-	return temp;
-} // Realiza a decomposição A = LU
+	//Resultado
+	result = lower;
+	for (int i = 0; i < linhas; i++)
+	{
+		result.elems[i][i] = 0; // Diagonal as 1
+	}
+	return result + upper;
+}// Decomposição LU, tive que fazer L e U em separado porque estava a ter muitos problemas quando o tentava fazer em conjunto.
 
